@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/square.png" type="Texture" id=1]
+
+[node name="OcupiedSpace" type="Node2D"]
+
+[node name="Image" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 1 )
