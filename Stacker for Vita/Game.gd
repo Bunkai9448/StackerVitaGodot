@@ -2,7 +2,7 @@ extends Node2D
 
 
 var rows = 5 
-var cols = 5
+var cols = 3
 
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run
@@ -91,7 +91,7 @@ func newRow(size):
 			newEmpty.position = Vector2(line * bCoordinates.x, i * bCoordinates.y)
 			newEmpty.set_visible(true)
 			gameWindow.push_back([0,newEmpty.get_instance_id()])
-
+			
 
 # To Shift the current row (replicates game's movement)
 func shiftRow(row):
@@ -104,12 +104,12 @@ func shiftRow(row):
 		# Uptdate the array
 		if (rowStart + i) < (rowStart + cols -1): # If we haven't reached the end of the row
 			elem2 = gameWindow.pop_at(rowStart + i + 1) # after the first pop the same "i" is the next elem
-			instance_from_id(elem1[1]).position = Vector2(line * bCoordinates.x, (rowStart + i + 1) * bCoordinates.y)
+			instance_from_id(elem1[1]).position = Vector2(line * bCoordinates.x, (i + 1) * bCoordinates.y)
 			gameWindow.insert(rowStart + i + 1, elem1)
 			elem1 = elem2
 		else: # if this was the last element of the row
 			elem2 = gameWindow.pop_at(rowStart) # first element of the row is the next elem
-			instance_from_id(elem1[1]).position = Vector2(line * bCoordinates.x, rowStart * bCoordinates.y)
+			instance_from_id(elem1[1]).position = Vector2(line * bCoordinates.x, 0 * bCoordinates.y)
 			gameWindow.insert(rowStart, elem1)
 			elem1 = elem2
 
