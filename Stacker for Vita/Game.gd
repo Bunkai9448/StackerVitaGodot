@@ -7,8 +7,8 @@ var cols = 3
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run
 var blocks = 1 # number of currently moving blocks
-var nClean = 3 # max number of lines in screen, avoid getting out of display boundaries
-var refreshTime = 6000000 # Time for the refresh (hacky method I had to come up with)
+var nClean = 8 # max number of lines in screen, avoid getting out of display boundaries
+var refreshTime = 4000000 # Time for the refresh (hacky method I had to come up with)
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
@@ -31,19 +31,25 @@ func _process(_delta):
 			# Compare previous and current row to see what blocks that stack and update accordingly
 			var lineStart = line * cols
 			var prevLineStart = (line - 1) * cols
-			for i in range(cols - 1): # Compare the elements of both rows one by one
+			for i in (cols): # Compare the elements of both rows one by one
 				var elem1 = gameWindow.pop_at(prevLineStart + i) # grab and save the elem to compare
 				gameWindow.insert(prevLineStart + i, elem1) # but don't modify the array
 				var elem2 = gameWindow.pop_at(lineStart + i) # grab and save the elem to compare
-
+				
+				
 				# COMPARE FIRST ELEMENT OF THE PAIR, THE 2 ONE ARE ALWAYS DIFFERENT IMAGE INSTANCES
-				if elem1[1] != elem2[1]: # always empty if they are different
-					if elem1[1] == 1: # If it was a block falling,
+				if elem1[0] != elem2[0]: # always empty if they are different
+					if elem1[0] == 1: # If it was a block falling,
 						blocks = blocks - 1 # update the counter
+						
 					# Insert the empty block in the row
 					gameWindow.insert(lineStart + i, elem1)
-				if elem1[1] == elem2[1]: # elem was either empty or stack, so reinsert in same place
+				if elem1[0] == elem2[0]: # elem was either empty or stack, so reinsert in same place
 					gameWindow.insert(lineStart + i, elem2)
+
+				print_debug(str(elem1) + " " + str(elem2))
+				print_debug("///")
+				
 				
 			# Check Game Over case
 			if blocks == 0: # There are no ocupied blocks in the row
