@@ -2,7 +2,7 @@ extends Node2D
 
 
 var rows = 5 
-var cols = 2
+var cols = 5
 
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run
@@ -97,18 +97,21 @@ func newRow(size):
 func shiftRow(row):
 	var rowStart = row * cols
 
-	var elem1 = 0 # current elem in check
+	var elem1 = gameWindow.pop_at(rowStart) # current elem in check
+	gameWindow.insert(rowStart, elem1)
 	var elem2 = 0 # To avoid error (wrong element checked) with insertions
-	for i in (cols - 1):
+	for i in (cols):
 		# Uptdate the array
-		elem1 = gameWindow.pop_at(rowStart + i) # current elem out
-		instance_from_id(elem1[1]).position = Vector2(line * bCoordinates.x, i * bCoordinates.y)
-		elem2 = gameWindow.pop_at(rowStart + i) # after the first pop the same "i" is the next elem
-
-		gameWindow.insert(rowStart + i, elem1)
-		if (rowStart + i) <= (rowStart + cols -1): # If we haven't reached the end of the row
-			gameWindow.insert(rowStart + i, elem2) # Since 2 elem were poped we need to reinsert 2
-			instance_from_id(elem2[1]).position = Vector2(line * bCoordinates.x, (i + 1) * bCoordinates.y)
+		if (rowStart + i) < (rowStart + cols -1): # If we haven't reached the end of the row
+			elem2 = gameWindow.pop_at(rowStart + i + 1) # after the first pop the same "i" is the next elem
+			instance_from_id(elem1[1]).position = Vector2(line * bCoordinates.x, (rowStart + i + 1) * bCoordinates.y)
+			gameWindow.insert(rowStart + i + 1, elem1)
+			elem1 = elem2
+		else: # if this was the last element of the row
+			elem2 = gameWindow.pop_at(rowStart) # first element of the row is the next elem
+			instance_from_id(elem1[1]).position = Vector2(line * bCoordinates.x, rowStart * bCoordinates.y)
+			gameWindow.insert(rowStart, elem1)
+			elem1 = elem2
 
 
 # To restart the game
