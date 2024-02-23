@@ -2,11 +2,11 @@ extends Node2D
 
 
 var rows = 5 
-var cols = 3
+var cols = 2
 
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run
-var blocks = 2 # number of currently moving blocks
+var blocks = 1 # number of currently moving blocks
 var nClean = 3 # max number of lines in screen, avoid getting out of display boundaries
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
@@ -48,9 +48,8 @@ func _process(_delta):
 				pass # TO-DO
 				
 			# Create the new line so the game can continue
-#		line = line + 1
-#		newRow(blocks)
-		shiftRow(line)
+		line = line + 1
+		newRow(blocks)
 			
 		# Avoid overflowing the screen and save resources
 		# Delete first row of the array when there are too many lines on screen
@@ -65,7 +64,7 @@ func _process(_delta):
 		
 		
 	# Shift current line of blocks moving
-#	shiftRow(line)
+	shiftRow(line)
 	# Display current stack
 	get_node("Score").text = str(gameWindow)
 
@@ -99,14 +98,15 @@ func shiftRow(row):
 	var elem1 = 0 # current elem in check
 	var elem2 = 0 # To avoid error (wrong element checked) with insertions
 	for i in (cols - 1):
+		# Uptdate the array
 		elem1 = gameWindow.pop_at(rowStart + i) # current elem out
+		instance_from_id(elem1[1]).position = Vector2(line * bCoordinates.x, i * bCoordinates.y)
 		elem2 = gameWindow.pop_at(rowStart + i) # after the first pop the same "i" is the next elem
 
 		gameWindow.insert(rowStart + i, elem1)
-
-	
 		if (rowStart + i) <= (rowStart + cols -1): # If we haven't reached the end of the row
 			gameWindow.insert(rowStart + i, elem2) # Since 2 elem were poped we need to reinsert 2
+			instance_from_id(elem2[1]).position = Vector2(line * bCoordinates.x, (i + 1) * bCoordinates.y)
 
 
 # To restart the game
