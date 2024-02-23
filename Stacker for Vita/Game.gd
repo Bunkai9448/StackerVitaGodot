@@ -2,11 +2,11 @@ extends Node2D
 
 
 var rows = 5 
-var cols = 2
+var cols = 3
 
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run
-var blocks = 1 # number of currently moving blocks
+var blocks = 2 # number of currently moving blocks
 var nClean = 3 # max number of lines in screen, avoid getting out of display boundaries
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
@@ -48,8 +48,9 @@ func _process(_delta):
 				pass # TO-DO
 				
 			# Create the new line so the game can continue
-		line = line + 1
-		newRow(blocks)
+#		line = line + 1
+#		newRow(blocks)
+		shiftRow(line)
 			
 		# Avoid overflowing the screen and save resources
 		# Delete first row of the array when there are too many lines on screen
@@ -59,6 +60,8 @@ func _process(_delta):
 				gameWindow.pop_front() 
 				# TO-DO free the images instanced of that row
 				# TO-DO move displayed blocks one row down
+				
+		
 		
 		
 	# Shift current line of blocks moving
@@ -71,7 +74,7 @@ func _process(_delta):
 func newRow(size):
 	var numNewBlocks = size
 	# Create and Initialize new row
-	for i in range(cols - 1):
+	for i in (cols):
 		if numNewBlocks > 0: # Add an Draw blocks to the row 
 			numNewBlocks = numNewBlocks - 1 # Update the num of blocks left to add
 			# Draw block on screen, according to raw an column
@@ -81,8 +84,7 @@ func newRow(size):
 			newOcupy.set_visible(true)
 			gameWindow.push_back([1,newOcupy.get_instance_id()])
 			
-
-		if numNewBlocks == 0: # fill the rest of the row with empty spaces
+		else: # fill the rest of the row with empty spaces
 			var newEmpty = emptySquares.instance()
 			add_child(newEmpty)
 			newEmpty.position = Vector2(line * bCoordinates.x, i * bCoordinates.y)
@@ -96,11 +98,12 @@ func shiftRow(row):
 
 	var elem1 = 0 # current elem in check
 	var elem2 = 0 # To avoid error (wrong element checked) with insertions
-	for i in range(cols - 1):
+	for i in (cols - 1):
 		elem1 = gameWindow.pop_at(rowStart + i) # current elem out
 		elem2 = gameWindow.pop_at(rowStart + i) # after the first pop the same "i" is the next elem
 
 		gameWindow.insert(rowStart + i, elem1)
+
 	
 		if (rowStart + i) <= (rowStart + cols -1): # If we haven't reached the end of the row
 			gameWindow.insert(rowStart + i, elem2) # Since 2 elem were poped we need to reinsert 2
