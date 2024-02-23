@@ -8,6 +8,7 @@ var gameWindow = [] # To control the blocks logic
 var line = 0 # number of lines stacked successfully in current run
 var blocks = 1 # number of currently moving blocks
 var nClean = 3 # max number of lines in screen, avoid getting out of display boundaries
+var refreshTime = 6000000 # Time for the refresh (hacky method I had to come up with)
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
@@ -23,6 +24,7 @@ func _ready():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	for i in refreshTime: pass # This is a hacky way to control the refreshing times, so it can be played by a human
 	
 	if Input.is_action_just_pressed("Red_Button"):
 		if line != 0: # The first line always stacks
