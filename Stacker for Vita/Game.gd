@@ -10,13 +10,13 @@ var line = 0 # number of lines stacked successfully in current run, reset every 
 var score = 0 # it's the number of lines completed
 var blocks = 1 # number of currently moving blocks
 var nClean = 8 # max number of lines in screen, avoid getting out of display boundaries
-var refreshTime = 100000 # Time for the shift time (hacky method I had to come up with)
+var refreshTime = 6000000 # Time for the shift time (hacky method I had to come up with)
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
 var bCoordinates = Vector2(64,64) # Base coordinates (plus size) in screen for easily displaying blocks
 
- 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Create and Initialize first row (uses an array to manage)
@@ -28,46 +28,53 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if !gameOver:
-		if Input.is_action_just_pressed("Red_Button"):
-			if line != 0: # The first line always stacks
-				# Compare previous and current row to see what blocks that stack and update accordingly
-				var lineStart = line * cols
-				var prevLineStart = (line - 1) * cols
-				for i in (cols): # Compare the elements of both rows one by one
-					var elem1 = gameWindow.pop_at(prevLineStart + i) # grab and save the elem to compare
-					gameWindow.insert(prevLineStart + i, elem1) # but don't modify the array
-					var elem2 = gameWindow.pop_at(lineStart + i) # grab and save the elem to compare
-					# COMPARE FIRST ELEMENT OF THE PAIR, THE 2 ONE ARE ALWAYS DIFFERENT IMAGE INSTANCES
-					if elem1[0] != elem2[0]: # always empty if they are different
-						if elem1[0] == 1: # If it was a block falling,
-							blocks = blocks - 1 # update the counter
-						# Insert the empty block in the row
-						gameWindow.insert(lineStart + i, elem1)
-					if elem1[0] == elem2[0]: # elem was either empty or stack, so reinsert in same place
-						gameWindow.insert(lineStart + i, elem2)
-				# Check Game Over case
-				if blocks == 0: # There are no ocupied blocks in the row
-					gameOver = true
-			
-			# Create the new line so the game can continue
-			line = line + 1
-			newRow(blocks)
-			# Avoid overflowing the screen and save resources
-			# Delete first row of the array when there are too many lines on screen
-			if line > nClean:
-				line = line - 1 
-				for i in range(cols):
-					gameWindow.pop_front() 
-			
-			# Update current Score
-			score = score + 1
-			if gameOver:
-				get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score) + "\nFAME OVER" 
-			else:
-				get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score)
-			
 		# Shift current line of blocks moving
 		shiftRow(line)
+
+
+# The button has to be asyncronous, so the refresh can be modified for a person to be able to follow the blocks
+func _unhandled_input(event):
+	if !gameOver:
+		if event is InputEventKey:
+			# https://docs.godotengine.org/en/3.5/classes/class_%40globalscope.html#enum-globalscope-joysticklist
+			if (event.pressed and event.scancode == JOY_SONY_SQUARE) or (event.pressed and event.scancode == KEY_SPACE):
+				if line != 0: # The first line always stacks
+					# Compare previous and current row to see what blocks that stack and update accordingly
+					var lineStart = line * cols
+					var prevLineStart = (line - 1) * cols
+					for i in (cols): # Compare the elements of both rows one by one
+						var elem1 = gameWindow.pop_at(prevLineStart + i) # grab and save the elem to compare
+						gameWindow.insert(prevLineStart + i, elem1) # but don't modify the array
+						var elem2 = gameWindow.pop_at(lineStart + i) # grab and save the elem to compare
+						# COMPARE FIRST ELEMENT OF THE PAIR, THE 2 ONE ARE ALWAYS DIFFERENT IMAGE INSTANCES
+						if elem1[0] != elem2[0]: # always empty if they are different
+							if elem1[0] == 1: # If it was a block falling,
+								blocks = blocks - 1 # update the counter
+							# Insert the empty block in the row
+							gameWindow.insert(lineStart + i, elem1)
+						if elem1[0] == elem2[0]: # elem was either empty or stack, so reinsert in same place
+							gameWindow.insert(lineStart + i, elem2)
+					# Check Game Over case
+					if blocks == 0: # There are no ocupied blocks in the row
+						gameOver = true
+				
+				# Create the new line so the game can continue
+				line = line + 1
+				newRow(blocks)
+				# Avoid overflowing the screen and save resources
+				# Delete first row of the array when there are too many lines on screen
+				if line > nClean:
+					line = line - 1 
+					for _i in range(cols):
+						gameWindow.pop_front() 
+				
+				# Update current Score
+				score = score + 1
+				if gameOver:
+					get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score) + "\nFAME OVER" 
+				else:
+					get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score)
+				
 
 
 # To insert the new line of blocks
