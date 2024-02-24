@@ -61,7 +61,10 @@ func _process(_delta):
 			
 			# Update current Score
 			score = score + 1
-			get_node("Score").text = "SCORE:\n" + str(score)
+			if gameOver:
+				get_node("Score").text = "FAME OVER:\n" +  "SCORE:\n" + str(score)
+			else:
+				get_node("Score").text = "SCORE:\n" + str(score)
 			
 		# Shift current line of blocks moving
 		shiftRow(line)
