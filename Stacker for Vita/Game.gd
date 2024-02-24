@@ -62,7 +62,7 @@ func _process(_delta):
 			# Update current Score
 			score = score + 1
 			if gameOver:
-				get_node("Score").text = "FAME OVER:\n" +  "SCORE:\n" + str(score)
+				get_node("Score").text = "SCORE:\n" + str(score) + "\nFAME OVER" 
 			else:
 				get_node("Score").text = "SCORE:\n" + str(score)
 			
