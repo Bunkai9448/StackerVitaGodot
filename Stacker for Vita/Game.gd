@@ -34,46 +34,45 @@ func _process(_delta):
 
 # The button has to be asyncronous, so the refresh can be modified for a person to be able to follow the blocks
 # https://docs.godotengine.org/en/3.5/classes/class_%40globalscope.html#enum-globalscope-joysticklist
-func _unhandled_input(event):
-	if !gameOver:
-		if event.is_action_pressed("Red_Button"):
-				if line != 0: # The first line always stacks
-					# Compare previous and current row to see what blocks that stack and update accordingly
-					var lineStart = line * cols
-					var prevLineStart = (line - 1) * cols
-					for i in (cols): # Compare the elements of both rows one by one
-						var elem1 = gameWindow.pop_at(prevLineStart + i) # grab and save the elem to compare
-						gameWindow.insert(prevLineStart + i, elem1) # but don't modify the array
-						var elem2 = gameWindow.pop_at(lineStart + i) # grab and save the elem to compare
-						# COMPARE FIRST ELEMENT OF THE PAIR, THE 2 ONE ARE ALWAYS DIFFERENT IMAGE INSTANCES
-						if elem1[0] != elem2[0]: # always empty if they are different
-							if elem1[0] == 1: # If it was a block falling,
-								blocks = blocks - 1 # update the counter
-							# Insert the empty block in the row
-							gameWindow.insert(lineStart + i, elem1)
-						if elem1[0] == elem2[0]: # elem was either empty or stack, so reinsert in same place
-							gameWindow.insert(lineStart + i, elem2)
-					# Check Game Over case
-					if blocks == 0: # There are no ocupied blocks in the row
-						gameOver = true
-				
-				# Create the new line so the game can continue
-				line = line + 1
-				newRow(blocks)
-				# Avoid overflowing the screen and save resources
-				# Delete first row of the array when there are too many lines on screen
-				if line > nClean:
-					line = line - 1 
-					for _i in range(cols):
-						gameWindow.pop_front() 
-				
-				# Update current Score
-				score = score + 1
-				if gameOver:
-					get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score) + "\nFAME OVER" 
-				else:
-					get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score)
-				
+# Separated function so it can be called from keyInput and from buttonNode
+func pressToStack():
+	if line != 0: # The first line always stacks
+		# Compare previous and current row to see what blocks that stack and update accordingly
+		var lineStart = line * cols
+		var prevLineStart = (line - 1) * cols
+		for i in (cols): # Compare the elements of both rows one by one
+			var elem1 = gameWindow.pop_at(prevLineStart + i) # grab and save the elem to compare
+			gameWindow.insert(prevLineStart + i, elem1) # but don't modify the array
+			var elem2 = gameWindow.pop_at(lineStart + i) # grab and save the elem to compare
+			# COMPARE FIRST ELEMENT OF THE PAIR, THE 2 ONE ARE ALWAYS DIFFERENT IMAGE INSTANCES
+			if elem1[0] != elem2[0]: # always empty if they are different
+				if elem1[0] == 1: # If it was a block falling,
+					blocks = blocks - 1 # update the counter
+				# Insert the empty block in the row
+				gameWindow.insert(lineStart + i, elem1)
+			if elem1[0] == elem2[0]: # elem was either empty or stack, so reinsert in same place
+				gameWindow.insert(lineStart + i, elem2)
+		# Check Game Over case
+		if blocks == 0: # There are no ocupied blocks in the row
+			gameOver = true
+	
+	# Create the new line so the game can continue
+	line = line + 1
+	newRow(blocks)
+	# Avoid overflowing the screen and save resources
+	# Delete first row of the array when there are too many lines on screen
+	if line > nClean:
+		line = line - 1 
+		for _i in range(cols):
+			gameWindow.pop_front() 
+	
+	# Update current Score
+	score = score + 1
+	if gameOver:
+		get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score) + "\nFAME OVER" 
+	else:
+		get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score)
+		
 
 
 # To insert the new line of blocks
@@ -86,13 +85,13 @@ func newRow(size):
 			# Draw block on screen, according to raw an column
 			var newOcupy = ocupiedSquares.instance()
 			add_child(newOcupy)
-			newOcupy.position = Vector2((960-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
+			newOcupy.position = Vector2((910-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
 			newOcupy.set_visible(true)
 			gameWindow.push_back([1,newOcupy.get_instance_id()])
 		else: # fill the rest of the row with empty spaces
 			var newEmpty = emptySquares.instance()
 			add_child(newEmpty)
-			newEmpty.position = Vector2((960-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
+			newEmpty.position = Vector2((910-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
 			newEmpty.set_visible(true)
 			gameWindow.push_back([0,newEmpty.get_instance_id()])
 
@@ -108,12 +107,12 @@ func shiftRow(row):
 		# Uptdate the array
 		if (rowStart + i) < (rowStart + cols -1): # If we haven't reached the end of the row
 			elem2 = gameWindow.pop_at(rowStart + i + 1) # after the first pop the same "i" is the next elem
-			instance_from_id(elem1[1]).position = Vector2((960-bCoordinates.x) - (line * bCoordinates.x), (i + 1) * bCoordinates.y)
+			instance_from_id(elem1[1]).position = Vector2((910-bCoordinates.x) - (line * bCoordinates.x), (i + 1) * bCoordinates.y)
 			gameWindow.insert(rowStart + i + 1, elem1)
 			elem1 = elem2
 		else: # if this was the last element of the row
 			elem2 = gameWindow.pop_at(rowStart) # first element of the row is the next elem
-			instance_from_id(elem1[1]).position = Vector2((960-bCoordinates.x) - (line * bCoordinates.x), 0 * bCoordinates.y)
+			instance_from_id(elem1[1]).position = Vector2((910-bCoordinates.x) - (line * bCoordinates.x), 0 * bCoordinates.y)
 			gameWindow.insert(rowStart, elem1)
 			elem1 = elem2
 
@@ -121,3 +120,15 @@ func shiftRow(row):
 # To restart the game
 func _on_NewGame_pressed():
 	Autoload.goto_scene("res://Game.tscn")
+
+# Stop button, option A
+func _unhandled_input(event):
+	if !gameOver:
+		if event.is_action_pressed("Red_Button"):
+			pressToStack()
+
+# Stop button, option B
+func _on_StopButton_pressed():
+	if !gameOver:
+		pressToStack()
+
