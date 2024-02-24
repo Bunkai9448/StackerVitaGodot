@@ -15,12 +15,12 @@ Everything in this repository has been tested, some features work and some don't
 
 ## Dev info for those who want to implement other features
 
-Due to godot's keyboard ghosting with asynchronous events:
+Due to godot's:
 ```
 Note: Due to keyboard ghosting, is_action_pressed may return false even if one of the action's keys is pressed. See Input examples in the documentation for more information.
 ``` 
 https://docs.godotengine.org/en/3.5/classes/class_inputevent.html#class-inputevent-method-is-action-type.
-https://docs.godotengine.org/en/3.5/classes/class_%40globalscope.html#enum-globalscope-joysticklist
+https://docs.godotengine.org/en/3.5/classes/class_%40globalscope.html#enum-globalscope-joysticklist \
 Sometimes the input is not read (With syncrhonous buttons this doesn't happen, however due to the nature of the stacker 
 I needed the asyncrhonous buttons to work with the slowed down refreshed times).
 
