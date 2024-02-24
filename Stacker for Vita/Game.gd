@@ -86,13 +86,13 @@ func newRow(size):
 			# Draw block on screen, according to raw an column
 			var newOcupy = ocupiedSquares.instance()
 			add_child(newOcupy)
-			newOcupy.position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
+			newOcupy.position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y + 48)
 			newOcupy.set_visible(true)
 			gameWindow.push_back([1,newOcupy.get_instance_id()])
 		else: # fill the rest of the row with empty spaces
 			var newEmpty = emptySquares.instance()
 			add_child(newEmpty)
-			newEmpty.position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
+			newEmpty.position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y + 48)
 			newEmpty.set_visible(true)
 			gameWindow.push_back([0,newEmpty.get_instance_id()])
 
@@ -108,12 +108,12 @@ func shiftRow(row):
 		# Uptdate the array
 		if (rowStart + i) < (rowStart + cols -1): # If we haven't reached the end of the row
 			elem2 = gameWindow.pop_at(rowStart + i + 1) # after the first pop the same "i" is the next elem
-			instance_from_id(elem1[1]).position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), (i + 1) * bCoordinates.y)
+			instance_from_id(elem1[1]).position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), (i + 1) * bCoordinates.y + 48)
 			gameWindow.insert(rowStart + i + 1, elem1)
 			elem1 = elem2
 		else: # if this was the last element of the row
 			elem2 = gameWindow.pop_at(rowStart) # first element of the row is the next elem
-			instance_from_id(elem1[1]).position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), 0 * bCoordinates.y)
+			instance_from_id(elem1[1]).position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), 0 * bCoordinates.y + 48)
 			gameWindow.insert(rowStart, elem1)
 			elem1 = elem2
 
