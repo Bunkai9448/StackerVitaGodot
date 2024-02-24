@@ -41,6 +41,23 @@ custom_fonts/font = SubResource( 1 )
 text = "Stacker for Vita"
 align = 1
 
+[node name="NameBottom" type="ColorRect" parent="."]
+margin_left = 900.0
+margin_right = 964.0
+margin_bottom = 544.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="LabelName" type="Label" parent="NameBottom"]
+margin_left = 5.0
+margin_top = 440.0
+margin_right = 343.0
+margin_bottom = 489.0
+rect_rotation = 270.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Stacker for Vita"
+align = 1
+
 [node name="ReplayMenu" type="VBoxContainer" parent="."]
 margin_left = 70.0
 margin_top = 510.0
@@ -71,13 +88,12 @@ visible = false
 visible = false
 
 [node name="StopButton" type="Button" parent="."]
+visible = false
 margin_left = 910.0
 margin_top = 544.0
 margin_right = 1454.0
 margin_bottom = 594.0
 rect_rotation = 270.0
 custom_fonts/font = SubResource( 3 )
-text = "STOP"
 
 [connection signal="pressed" from="ReplayMenu/NewGame" to="." method="_on_NewGame_pressed"]
-[connection signal="pressed" from="StopButton" to="." method="_on_StopButton_pressed"]

@@ -1,16 +1,17 @@
 extends Node2D
 
 
-var rows = 5 
-var cols = 3
+var rows = 10 
+var cols = 7
 
 var gameOver = false
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run, reset every few times for ram/screen efficency
 var score = 0 # it's the number of lines completed
-var blocks = 1 # number of currently moving blocks
-var nClean = 8 # max number of lines in screen, avoid getting out of display boundaries
-var refreshTime = 6000000 # Time for the shift time (hacky method I had to come up with)
+var blocks = 3 # number of currently moving blocks
+var nClean = 12 # max number of lines in screen, avoid getting out of display boundaries
+# Time for the shift refresh (hacky method I had to come up with), I know it eats resources
+var refreshTime = 300000 # use refreshTime = 300000 for the vita
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
@@ -85,13 +86,13 @@ func newRow(size):
 			# Draw block on screen, according to raw an column
 			var newOcupy = ocupiedSquares.instance()
 			add_child(newOcupy)
-			newOcupy.position = Vector2((910-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
+			newOcupy.position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
 			newOcupy.set_visible(true)
 			gameWindow.push_back([1,newOcupy.get_instance_id()])
 		else: # fill the rest of the row with empty spaces
 			var newEmpty = emptySquares.instance()
 			add_child(newEmpty)
-			newEmpty.position = Vector2((910-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
+			newEmpty.position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), i * bCoordinates.y)
 			newEmpty.set_visible(true)
 			gameWindow.push_back([0,newEmpty.get_instance_id()])
 
@@ -107,12 +108,12 @@ func shiftRow(row):
 		# Uptdate the array
 		if (rowStart + i) < (rowStart + cols -1): # If we haven't reached the end of the row
 			elem2 = gameWindow.pop_at(rowStart + i + 1) # after the first pop the same "i" is the next elem
-			instance_from_id(elem1[1]).position = Vector2((910-bCoordinates.x) - (line * bCoordinates.x), (i + 1) * bCoordinates.y)
+			instance_from_id(elem1[1]).position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), (i + 1) * bCoordinates.y)
 			gameWindow.insert(rowStart + i + 1, elem1)
 			elem1 = elem2
 		else: # if this was the last element of the row
 			elem2 = gameWindow.pop_at(rowStart) # first element of the row is the next elem
-			instance_from_id(elem1[1]).position = Vector2((910-bCoordinates.x) - (line * bCoordinates.x), 0 * bCoordinates.y)
+			instance_from_id(elem1[1]).position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), 0 * bCoordinates.y)
 			gameWindow.insert(rowStart, elem1)
 			elem1 = elem2
 
@@ -128,7 +129,7 @@ func _unhandled_input(event):
 			pressToStack()
 
 # Stop button, option B
-func _on_StopButton_pressed():
-	if !gameOver:
-		pressToStack()
+#func _on_StopButton_pressed():
+#	if !gameOver:
+#		pressToStack()
 
