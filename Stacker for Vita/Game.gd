@@ -33,11 +33,10 @@ func _process(_delta):
 
 
 # The button has to be asyncronous, so the refresh can be modified for a person to be able to follow the blocks
+# https://docs.godotengine.org/en/3.5/classes/class_%40globalscope.html#enum-globalscope-joysticklist
 func _unhandled_input(event):
 	if !gameOver:
-		if event is InputEventKey:
-			# https://docs.godotengine.org/en/3.5/classes/class_%40globalscope.html#enum-globalscope-joysticklist
-			if (event.pressed and event.scancode == JOY_SONY_SQUARE) or (event.pressed and event.scancode == KEY_SPACE):
+		if event.is_action_pressed("Red_Button"):
 				if line != 0: # The first line always stacks
 					# Compare previous and current row to see what blocks that stack and update accordingly
 					var lineStart = line * cols
