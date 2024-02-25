@@ -17,9 +17,11 @@ var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in scree
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
 var bCoordinates = Vector2(64,64) # Base coordinates (plus size) in screen for easily displaying blocks
 
+onready var CorrectSound = preload("res://Assets/BGM.wav")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	soundON()
 	# Create and Initialize first row (uses an array to manage)
 	# if the position has a 0, there's no block in it
 	# if the position has a 1, there's a block in it
@@ -29,6 +31,8 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if !gameOver:
+		# Add sound if it's not already playing
+		soundON()
 		# Shift current line of blocks moving
 		shiftRow(line)
 
@@ -59,6 +63,7 @@ func pressToStack():
 		# Check Game Over case
 		if blocks == 0: # There are no ocupied blocks in the row
 			gameOver = true
+			soundOFF()
 	
 	# Create the new line so the game can continue
 	line = line + 1
@@ -119,6 +124,16 @@ func shiftRow(row):
 			instance_from_id(elem1[1]).position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), 0 * bCoordinates.y + 48)
 			gameWindow.insert(rowStart, elem1)
 			elem1 = elem2
+
+
+func soundON():
+	if !$BGS/AudioStreamPlayer.is_playing():
+		$BGS/AudioStreamPlayer.stream = CorrectSound
+		$BGS/AudioStreamPlayer.play()
+
+func soundOFF():
+	if $BGS/AudioStreamPlayer.is_playing():
+		$BGS/AudioStreamPlayer.stop()
 
 
 # To restart the game
