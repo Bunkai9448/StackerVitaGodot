@@ -1,17 +1,15 @@
 extends Node2D
 
 
-var rows = 10 
-var cols = 7
+var cols # global var from Autoload
+var blocks # global var from Autoload
+var refreshTime # global var from Autoload
 
 var gameOver = false
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run, reset every few times for ram/screen efficency
 var score = 0 # it's the number of lines completed
-var blocks = 3 # number of currently moving blocks
-var nClean = 11 # max number of lines in screen, avoid getting out of display boundaries
-# Time for the shift refresh (hacky method I had to come up with), I know it eats resources
-var refreshTime = 300000 # use refreshTime = 300000 for the vita
+var nClean = 9 # max number of lines in screen, avoid getting out of display boundaries
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
@@ -23,6 +21,10 @@ onready var falling = preload("res://Assets/Fall.wav")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	soundON()
+	cols = get_node("/root/Autoload").cols
+	
+	blocks = get_node("/root/Autoload").blocks
+	refreshTime = get_node("/root/Autoload").refreshTime
 	# Create and Initialize first row (uses an array to manage)
 	# if the position has a 0, there's no block in it
 	# if the position has a 1, there's a block in it
