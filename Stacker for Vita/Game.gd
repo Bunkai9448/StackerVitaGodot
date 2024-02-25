@@ -9,7 +9,7 @@ var gameWindow = [] # To control the blocks logic
 var line = 0 # number of lines stacked successfully in current run, reset every few times for ram/screen efficency
 var score = 0 # it's the number of lines completed
 var blocks = 3 # number of currently moving blocks
-var nClean = 12 # max number of lines in screen, avoid getting out of display boundaries
+var nClean = 11 # max number of lines in screen, avoid getting out of display boundaries
 # Time for the shift refresh (hacky method I had to come up with), I know it eats resources
 var refreshTime = 300000 # use refreshTime = 300000 for the vita
 
@@ -46,14 +46,15 @@ func pressToStack():
 			gameWindow.insert(prevLineStart + i, elem1) # but don't modify the array
 			var elem2 = gameWindow.pop_at(lineStart + i) # grab and save the elem to compare
 			# COMPARE FIRST ELEMENT OF THE PAIR, THE 2 ONE ARE ALWAYS DIFFERENT IMAGE INSTANCES
+			if elem1[0] == elem2[0]: # elem was either empty or stack, so reinsert in same place
+				gameWindow.insert(lineStart + i, elem2)
 			if elem1[0] != elem2[0]: # always empty if they are different
 				if elem2[0] == 1: # If it was a block falling,
 					blocks = blocks - 1 # update the counter
+					elem2[0] = 0
 					instance_from_id(elem2[1]).get_node("Image").set_visible(false)
 					instance_from_id(elem2[1]).get_node("Image2").set_visible(true)
 				# Insert the empty block in the row
-				gameWindow.insert(lineStart + i, elem2)
-			if elem1[0] == elem2[0]: # elem was either empty or stack, so reinsert in same place
 				gameWindow.insert(lineStart + i, elem2)
 		# Check Game Over case
 		if blocks == 0: # There are no ocupied blocks in the row
