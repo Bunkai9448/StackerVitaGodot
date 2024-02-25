@@ -17,7 +17,8 @@ var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in scree
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
 var bCoordinates = Vector2(64,64) # Base coordinates (plus size) in screen for easily displaying blocks
 
-onready var CorrectSound = preload("res://Assets/BGM.wav")
+onready var background = preload("res://Assets/BGM.wav")
+onready var falling = preload("res://Assets/Fall.wav")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -54,6 +55,10 @@ func pressToStack():
 				gameWindow.insert(lineStart + i, elem2)
 			if elem1[0] != elem2[0]: # always empty if they are different
 				if elem2[0] == 1: # If it was a block falling,
+					soundOFF()
+					if !$Sounds/BGM.is_playing():
+						$Sounds/BGM.stream = falling
+						$Sounds/BGM.play()
 					blocks = blocks - 1 # update the counter
 					elem2[0] = 0
 					instance_from_id(elem2[1]).get_node("Image").set_visible(false)
@@ -127,13 +132,13 @@ func shiftRow(row):
 
 
 func soundON():
-	if !$BGS/AudioStreamPlayer.is_playing():
-		$BGS/AudioStreamPlayer.stream = CorrectSound
-		$BGS/AudioStreamPlayer.play()
+	if !$Sounds/BGM.is_playing():
+		$Sounds/BGM.stream = background
+		$Sounds/BGM.play()
 
 func soundOFF():
-	if $BGS/AudioStreamPlayer.is_playing():
-		$BGS/AudioStreamPlayer.stop()
+	if $Sounds/BGM.is_playing():
+		$Sounds/BGM.stop()
 
 
 # To restart the game
