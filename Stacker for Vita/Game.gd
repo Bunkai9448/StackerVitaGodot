@@ -9,7 +9,7 @@ var gameOver = false
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run, reset every few times for ram/screen efficency
 var score = 0 # it's the number of lines completed
-var nClean = 9 # max number of lines in screen, avoid getting out of display boundaries
+var nClean = 10 # max number of lines in screen, avoid getting out of display boundaries
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
@@ -145,7 +145,7 @@ func soundOFF():
 
 # To restart the game
 func _on_NewGame_pressed():
-	Autoload.goto_scene("res://Game.tscn")
+	get_tree().change_scene("res://Game.tscn")
 
 # Stop button, option A
 func _unhandled_input(event):
