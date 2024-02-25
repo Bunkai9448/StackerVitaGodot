@@ -47,10 +47,12 @@ func pressToStack():
 			var elem2 = gameWindow.pop_at(lineStart + i) # grab and save the elem to compare
 			# COMPARE FIRST ELEMENT OF THE PAIR, THE 2 ONE ARE ALWAYS DIFFERENT IMAGE INSTANCES
 			if elem1[0] != elem2[0]: # always empty if they are different
-				if elem1[0] == 1: # If it was a block falling,
+				if elem2[0] == 1: # If it was a block falling,
 					blocks = blocks - 1 # update the counter
+					instance_from_id(elem2[1]).get_node("Image").set_visible(false)
+					instance_from_id(elem2[1]).get_node("Image2").set_visible(true)
 				# Insert the empty block in the row
-				gameWindow.insert(lineStart + i, elem1)
+				gameWindow.insert(lineStart + i, elem2)
 			if elem1[0] == elem2[0]: # elem was either empty or stack, so reinsert in same place
 				gameWindow.insert(lineStart + i, elem2)
 		# Check Game Over case
