@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Digitalt.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Settings.gd" type="Script" id=2]
+[ext_resource path="res://EmptySpace.tscn" type="PackedScene" id=3]
+[ext_resource path="res://OcupiedSpace.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 42
@@ -60,7 +62,7 @@ custom_fonts/font = SubResource( 1 )
 text = "Stacker for Vita"
 align = 1
 
-[node name="RectangleMenu" type="ColorRect" parent="."]
+[node name="RectangleBlocks" type="ColorRect" parent="."]
 margin_left = 140.0
 margin_top = 370.0
 margin_right = 355.0
@@ -68,24 +70,59 @@ margin_bottom = 470.0
 rect_rotation = 270.0
 color = Color( 0.207843, 0.333333, 0.439216, 1 )
 
-[node name="BlocksUP" type="Button" parent="RectangleMenu"]
+[node name="BlocksUP" type="Button" parent="RectangleBlocks"]
 margin_left = -55.0
 margin_top = 20.0
 margin_bottom = 75.0
 custom_fonts/font = SubResource( 2 )
 text = "+"
 
-[node name="Blocks" type="Label" parent="RectangleMenu"]
-margin_left = 39.0
-margin_right = 158.0
-margin_bottom = 89.0
+[node name="Blocks" type="Label" parent="RectangleBlocks"]
+margin_left = 47.0
+margin_top = 4.0
+margin_right = 166.0
+margin_bottom = 93.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "Blocks
 3"
 align = 1
 
-[node name="BlocksDOWN" type="Button" parent="RectangleMenu"]
+[node name="BlocksDOWN" type="Button" parent="RectangleBlocks"]
+margin_left = 215.0
+margin_top = 20.0
+margin_right = 270.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 3 )
+text = "-"
+
+[node name="RectangleCols" type="ColorRect" parent="."]
+margin_left = 286.0
+margin_top = 370.0
+margin_right = 501.0
+margin_bottom = 470.0
+rect_rotation = 270.0
+color = Color( 0.207843, 0.333333, 0.439216, 1 )
+
+[node name="ColsUP" type="Button" parent="RectangleCols"]
+margin_left = -55.0
+margin_top = 20.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 2 )
+text = "+"
+
+[node name="Cols" type="Label" parent="RectangleCols"]
+margin_left = 47.0
+margin_top = 4.0
+margin_right = 166.0
+margin_bottom = 93.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Cols
+7"
+align = 1
+
+[node name="ColsDOWN" type="Button" parent="RectangleCols"]
 margin_left = 215.0
 margin_top = 20.0
 margin_right = 270.0
@@ -95,12 +132,53 @@ text = "-"
 
 [node name="StartGame" type="Button" parent="."]
 margin_left = 496.0
-margin_top = 369.0
+margin_top = 373.0
 margin_right = 714.0
-margin_bottom = 438.0
+margin_bottom = 442.0
 rect_rotation = 270.0
 custom_fonts/font = SubResource( 4 )
 text = "NEW GAME"
 
-[connection signal="pressed" from="RectangleMenu/BlocksUP" to="." method="_on_BlocksUP_pressed"]
+[node name="OcupiedSpace" parent="." instance=ExtResource( 4 )]
+position = Vector2( 692, 156 )
+rotation = 4.71239
+
+[node name="Fallen" type="Label" parent="OcupiedSpace"]
+margin_left = -25.0
+margin_top = 86.0
+margin_right = 85.0
+margin_bottom = 135.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Fallen"
+
+[node name="EmptySpace" parent="." instance=ExtResource( 3 )]
+position = Vector2( 692, 299 )
+rotation = 4.71239
+
+[node name="Empty" type="Label" parent="EmptySpace"]
+margin_left = -25.0
+margin_top = 86.0
+margin_right = 85.0
+margin_bottom = 135.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Empty"
+
+[node name="OcupiedSpace2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 692, 441 )
+rotation = 4.71239
+
+[node name="Full" type="Label" parent="OcupiedSpace2"]
+margin_top = 86.0
+margin_right = 73.0
+margin_bottom = 135.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Full"
+
+[connection signal="pressed" from="RectangleBlocks/BlocksUP" to="." method="_on_BlocksUP_pressed"]
+[connection signal="pressed" from="RectangleBlocks/BlocksDOWN" to="." method="_on_BlocksDOWN_pressed"]
+[connection signal="pressed" from="RectangleCols/ColsUP" to="." method="_on_ColsUP_pressed"]
+[connection signal="pressed" from="RectangleCols/ColsDOWN" to="." method="_on_ColsDOWN_pressed"]
 [connection signal="pressed" from="StartGame" to="." method="_on_StartGame_pressed"]
