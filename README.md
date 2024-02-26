@@ -3,9 +3,10 @@ A stacker arcade game made with godot 3.5, so I can play in my vita.\
 Sounds created with https://boscaceoil.net/
 
 ## Game Controls:
- (There are 2 slightly different versions)
+ (There are 2 slightly different versions PS Vita & PC/Mobile)
 
-- PS Vita users: 'NEW GAME' is tactile, to stop the blocks press SQUARE
+- Menus are all tactile
+- PS Vita users: 'NEW GAME' is tactile, to stop the blocks press SQUARE.
 - PC users: It is coded so you can have both SPACE and a tactile 'STOP' button.
 - Smartphone users: Play in browser with the PC display, just use the tactile button.
 
