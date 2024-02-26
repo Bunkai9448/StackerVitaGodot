@@ -6,7 +6,7 @@
 [ext_resource path="res://OcupiedSpace.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
-size = 42
+size = 36
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]
@@ -78,13 +78,13 @@ custom_fonts/font = SubResource( 2 )
 text = "+"
 
 [node name="Blocks" type="Label" parent="RectangleBlocks"]
-margin_left = 47.0
+margin_left = 5.0
 margin_top = 4.0
-margin_right = 166.0
+margin_right = 209.0
 margin_bottom = 93.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 1 )
-text = "Blocks
+text = "Full Blocks
 3"
 align = 1
 
@@ -112,13 +112,13 @@ custom_fonts/font = SubResource( 2 )
 text = "+"
 
 [node name="Cols" type="Label" parent="RectangleCols"]
-margin_left = 47.0
+margin_left = 32.0
 margin_top = 4.0
-margin_right = 166.0
+margin_right = 182.0
 margin_bottom = 93.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 1 )
-text = "Cols
+text = "COLUMNS
 7"
 align = 1
 
@@ -146,9 +146,9 @@ custom_fonts/font = SubResource( 2 )
 text = "+"
 
 [node name="Refresh" type="Label" parent="RectangleRefresh"]
-margin_left = 38.0
+margin_left = 36.0
 margin_top = 4.0
-margin_right = 180.0
+margin_right = 178.0
 margin_bottom = 93.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 1 )

@@ -32,14 +32,14 @@ func _on_ColsUP_pressed():
 	if cols < 7:
 		cols += 1
 		get_node("/root/Autoload").cols = cols
-		get_node("RectangleCols/Cols").text = "COLS\n" + str(cols)
+		get_node("RectangleCols/Cols").text = "COLUMNS\n" + str(cols)
 
 
 func _on_ColsDOWN_pressed():
 	if cols > 2:
 		cols -= 1
 		get_node("/root/Autoload").cols = cols
-		get_node("RectangleCols/Cols").text = "COLS\n" + str(cols)
+		get_node("RectangleCols/Cols").text = "COLUMNS\n" + str(cols)
 # Fix block limits after cols edits, for limit cases
 	if blocks >= cols:
 		blocks = cols -1
