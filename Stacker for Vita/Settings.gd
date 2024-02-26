@@ -18,14 +18,14 @@ func _on_BlocksUP_pressed():
 	if blocks < (cols - 1):
 		blocks += 1
 		get_node("/root/Autoload").blocks = blocks
-		get_node("RectangleBlocks/Blocks").text = "BLOCKS\n" + str(blocks)
+		get_node("RectangleBlocks/Blocks").text = "FULL BLOCKS\n" + str(blocks)
 
 
 func _on_BlocksDOWN_pressed():
 	if blocks > 1:
 		blocks -= 1
 		get_node("/root/Autoload").blocks = blocks
-		get_node("RectangleBlocks/Blocks").text = "BLOCKS\n" + str(blocks)
+		get_node("RectangleBlocks/Blocks").text = "FULL BLOCKS\n" + str(blocks)
 
 
 func _on_ColsUP_pressed():
@@ -44,7 +44,7 @@ func _on_ColsDOWN_pressed():
 	if blocks >= cols:
 		blocks = cols -1
 		get_node("/root/Autoload").blocks = blocks
-		get_node("RectangleBlocks/Blocks").text = "BLOCKS\n" + str(blocks)
+		get_node("RectangleBlocks/Blocks").text = "FULL BLOCKS\n" + str(blocks)
 
 
 func _on_RefreshUP_pressed():

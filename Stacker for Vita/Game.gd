@@ -75,12 +75,11 @@ func pressToStack():
 	# Create the new line so the game can continue
 	line = line + 1
 	newRow(blocks)
+	
 	# Avoid overflowing the screen and save resources
 	# Delete first row of the array when there are too many lines on screen
 	if line > nClean:
-		line = line - 1 
-		for _i in range(cols):
-			gameWindow.pop_front() 
+		lastRow()
 	
 	# Update current Score
 	score = score + 1
@@ -131,6 +130,14 @@ func shiftRow(row):
 			instance_from_id(elem1[1]).position = Vector2((900-bCoordinates.x) - (line * bCoordinates.x), 0 * bCoordinates.y + 48)
 			gameWindow.insert(rowStart, elem1)
 			elem1 = elem2
+
+
+# Redraw last row in the previous line to avoid losing current display on screen maximum lines situation
+func lastRow():
+	var prevLineStarts = (line -1) * cols
+	for i in (cols):
+		gameWindow.pop_at(prevLineStarts)
+	line -= 1
 
 
 func soundON():
