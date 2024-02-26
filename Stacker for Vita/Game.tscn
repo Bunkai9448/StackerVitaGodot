@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://OcupiedSpace.tscn" type="PackedScene" id=1]
 [ext_resource path="res://EmptySpace.tscn" type="PackedScene" id=3]
@@ -8,7 +8,10 @@
 [ext_resource path="res://Assets/Fall.wav" type="AudioStream" id=7]
 
 [sub_resource type="DynamicFont" id=1]
-size = 48
+size = 32
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
@@ -59,24 +62,39 @@ custom_fonts/font = SubResource( 1 )
 text = "Stacker for Vita"
 align = 1
 
-[node name="ReplayMenu" type="VBoxContainer" parent="."]
-margin_left = 70.0
-margin_top = 510.0
-margin_right = 193.0
-margin_bottom = 586.0
+[node name="ReplayMenu" type="HBoxContainer" parent="."]
+margin_left = 66.0
+margin_top = 453.0
+margin_right = 422.0
+margin_bottom = 573.0
 rect_rotation = 270.0
 
-[node name="Score" type="Label" parent="ReplayMenu"]
-margin_right = 123.0
-margin_bottom = 49.0
+[node name="Settings" type="Button" parent="ReplayMenu"]
+margin_right = 70.0
+margin_bottom = 120.0
+custom_fonts/font = SubResource( 4 )
+text = "Settings"
+
+[node name="ScoreBoard" type="ColorRect" parent="ReplayMenu"]
+margin_left = 74.0
+margin_right = 274.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 200, 0 )
+color = Color( 0.207843, 0.333333, 0.439216, 1 )
+
+[node name="Score" type="Label" parent="ReplayMenu/ScoreBoard"]
+margin_left = 4.0
+margin_right = 186.0
+margin_bottom = 89.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "SCORE:"
+align = 1
 
 [node name="NewGame" type="Button" parent="ReplayMenu"]
-margin_top = 53.0
-margin_right = 123.0
-margin_bottom = 76.0
+margin_left = 278.0
+margin_right = 356.0
+margin_bottom = 120.0
 custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "New game"
@@ -104,4 +122,5 @@ stream = ExtResource( 6 )
 [node name="BlocksFall" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 7 )
 
+[connection signal="pressed" from="ReplayMenu/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="ReplayMenu/NewGame" to="." method="_on_NewGame_pressed"]

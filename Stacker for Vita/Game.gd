@@ -9,7 +9,7 @@ var gameOver = false
 var gameWindow = [] # To control the blocks logic 
 var line = 0 # number of lines stacked successfully in current run, reset every few times for ram/screen efficency
 var score = 0 # it's the number of lines completed
-var nClean = 10 # max number of lines in screen, avoid getting out of display boundaries
+var nClean = 9 # max number of lines in screen, avoid getting out of display boundaries
 
 var  emptySquares = preload("res://EmptySpace.tscn") # Image to display in screen
 var  ocupiedSquares = preload("res://OcupiedSpace.tscn") # Image to display in screen
@@ -85,9 +85,9 @@ func pressToStack():
 	# Update current Score
 	score = score + 1
 	if gameOver:
-		get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score) + "\nFAME OVER" 
+		get_node("ReplayMenu/ScoreBoard/Score").text = "SCORE:\n" + str(score) + "\nFAME OVER" 
 	else:
-		get_node("ReplayMenu/Score").text = "SCORE:\n" + str(score)
+		get_node("ReplayMenu/ScoreBoard/Score").text = "SCORE:\n" + str(score)
 		
 
 
@@ -143,7 +143,11 @@ func soundOFF():
 		$Sounds/BGM.stop()
 
 
-# To restart the game
+# Go back to Settings menu
+func _on_Settings_pressed():
+	get_tree().change_scene("res://Settings.tscn")
+
+# Restart the game
 func _on_NewGame_pressed():
 	get_tree().change_scene("res://Game.tscn")
 
