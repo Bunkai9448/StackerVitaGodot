@@ -47,5 +47,19 @@ func _on_ColsDOWN_pressed():
 		get_node("RectangleBlocks/Blocks").text = "BLOCKS\n" + str(blocks)
 
 
+func _on_RefreshUP_pressed():
+	if refreshTime < 600000:
+		refreshTime += 1
+		get_node("/root/Autoload").refreshTime = refreshTime
+		get_node("RectangleRefresh/Refresh").text = "SPEED\n" + str(refreshTime)
+
+
+func _on_RefreshDOWN_pressed():
+	if refreshTime > 300000:
+		refreshTime -= 1
+		get_node("/root/Autoload").refreshTime = refreshTime
+		get_node("RectangleRefresh/Refresh").text = "SPEED\n" + str(refreshTime)
+
+
 func _on_StartGame_pressed():
 	get_tree().change_scene("res://Game.tscn")

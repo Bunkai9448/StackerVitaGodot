@@ -63,10 +63,10 @@ text = "Stacker for Vita"
 align = 1
 
 [node name="RectangleBlocks" type="ColorRect" parent="."]
-margin_left = 140.0
-margin_top = 370.0
-margin_right = 355.0
-margin_bottom = 470.0
+margin_left = 113.0
+margin_top = 373.0
+margin_right = 328.0
+margin_bottom = 473.0
 rect_rotation = 270.0
 color = Color( 0.207843, 0.333333, 0.439216, 1 )
 
@@ -97,10 +97,10 @@ custom_fonts/font = SubResource( 3 )
 text = "-"
 
 [node name="RectangleCols" type="ColorRect" parent="."]
-margin_left = 286.0
-margin_top = 370.0
-margin_right = 501.0
-margin_bottom = 470.0
+margin_left = 259.0
+margin_top = 373.0
+margin_right = 474.0
+margin_bottom = 473.0
 rect_rotation = 270.0
 color = Color( 0.207843, 0.333333, 0.439216, 1 )
 
@@ -130,11 +130,45 @@ margin_bottom = 75.0
 custom_fonts/font = SubResource( 3 )
 text = "-"
 
-[node name="StartGame" type="Button" parent="."]
-margin_left = 496.0
+[node name="RectangleRefresh" type="ColorRect" parent="."]
+margin_left = 407.0
 margin_top = 373.0
-margin_right = 714.0
-margin_bottom = 442.0
+margin_right = 622.0
+margin_bottom = 473.0
+rect_rotation = 270.0
+color = Color( 0.207843, 0.333333, 0.439216, 1 )
+
+[node name="RefreshUP" type="Button" parent="RectangleRefresh"]
+margin_left = -55.0
+margin_top = 20.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 2 )
+text = "+"
+
+[node name="Refresh" type="Label" parent="RectangleRefresh"]
+margin_left = 38.0
+margin_top = 4.0
+margin_right = 180.0
+margin_bottom = 93.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "SPEED
+300000"
+align = 1
+
+[node name="RefreshDOWN" type="Button" parent="RectangleRefresh"]
+margin_left = 215.0
+margin_top = 20.0
+margin_right = 270.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 3 )
+text = "-"
+
+[node name="StartGame" type="Button" parent="."]
+margin_left = 560.0
+margin_top = 375.0
+margin_right = 778.0
+margin_bottom = 444.0
 rect_rotation = 270.0
 custom_fonts/font = SubResource( 4 )
 text = "NEW GAME"
@@ -181,4 +215,6 @@ text = "Full"
 [connection signal="pressed" from="RectangleBlocks/BlocksDOWN" to="." method="_on_BlocksDOWN_pressed"]
 [connection signal="pressed" from="RectangleCols/ColsUP" to="." method="_on_ColsUP_pressed"]
 [connection signal="pressed" from="RectangleCols/ColsDOWN" to="." method="_on_ColsDOWN_pressed"]
+[connection signal="pressed" from="RectangleRefresh/RefreshUP" to="." method="_on_RefreshUP_pressed"]
+[connection signal="pressed" from="RectangleRefresh/RefreshDOWN" to="." method="_on_RefreshDOWN_pressed"]
 [connection signal="pressed" from="StartGame" to="." method="_on_StartGame_pressed"]
