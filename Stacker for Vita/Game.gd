@@ -4,6 +4,7 @@ extends Node2D
 var cols # global var from Autoload
 var blocks # global var from Autoload
 var refreshTime # global var from Autoload
+var race = false
 
 var gameOver = false
 var gameWindow = [] # To control the blocks logic 
@@ -37,6 +38,7 @@ func _process(_delta):
 		# Add sound if it's not already playing
 		soundON()
 		# Shift current line of blocks moving
+	if race == false:
 		shiftRow(line)
 
 
@@ -44,6 +46,7 @@ func _process(_delta):
 # https://docs.godotengine.org/en/3.5/classes/class_%40globalscope.html#enum-globalscope-joysticklist
 # Separated function so it can be called from keyInput and from buttonNode
 func pressToStack():
+	race = true
 	if line != 0: # The first line always stacks
 		# Compare previous and current row to see what blocks that stack and update accordingly
 		var lineStart = line * cols
@@ -72,14 +75,14 @@ func pressToStack():
 			gameOver = true
 			soundOFF()
 	
+	# Avoid overflowing the screen and save resources
+	# Delete first row of the array when there are too many lines on screen
+	if line >= nClean:
+		lastRow()
+	
 	# Create the new line so the game can continue
 	line = line + 1
 	newRow(blocks)
-	
-	# Avoid overflowing the screen and save resources
-	# Delete first row of the array when there are too many lines on screen
-	if line > nClean:
-		lastRow()
 	
 	# Update current Score
 	score = score + 1
@@ -88,6 +91,7 @@ func pressToStack():
 	else:
 		get_node("ReplayMenu/ScoreBoard/Score").text = "SCORE:\n" + str(score)
 		
+	race = false
 
 
 # To insert the new line of blocks
@@ -134,10 +138,16 @@ func shiftRow(row):
 
 # Redraw last row in the previous line to avoid losing current display on screen maximum lines situation
 func lastRow():
-	var prevLineStarts = (line -1) * cols
-	for i in (cols):
-		gameWindow.pop_at(prevLineStarts)
+	var temp = []
+	for i in cols: # save last stacked row and delete it from the array
+		temp.push_front( gameWindow.pop_back())
+	for i in cols: # clean previous row
+		gameWindow.pop_back()
 	line -= 1
+	for i in cols: # insert saved row and draw in proper line
+		var elem = temp.pop_front()
+		instance_from_id(elem[1]).position = Vector2((900-bCoordinates.x) - ((line)* bCoordinates.x), (i) * bCoordinates.y + 48)
+		gameWindow.push_back( elem )
 
 
 func soundON():
