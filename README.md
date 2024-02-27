@@ -33,8 +33,15 @@ https://docs.godotengine.org/en/3.5/classes/class_%40globalscope.html#enum-globa
 Sometimes the input is not read (With syncrhonous buttons this doesn't happen, however due to the nature of the stacker 
 I needed the asyncrhonous buttons to work with the slowed down refreshed times).
 
+There's a glitch when you are in the screen's top stack, where the last line looks randomly shifted one block. However if you follow the display, your blocks won't fall. Since I don't find why this happens, and it doesn't make you lose or anything, I decided to stop losing my mind and let it there. Feel free to fix it and make a push, if you find the reason. 
+[Mind you, don't give me "it could be..." issues, test it yourself or be quiet, I've done my debugging too].
+
 The shiftrow uses a one line loop that eats lots of resources, I know, but it was the only Idea I came up with so the delta doesn't make the blocks shifting go too fast for human eyes. If you know a better way, feel free to make a push to solve it.
 
+## Known Bugs
+
+There's a glitch when you are in the screen's top stack, where the last line looks randomly shifted one block. However if you follow the display, your blocks won't fall. Since I don't find why this happens, and it doesn't make you lose or anything, I decided to stop losing my mind and let it there. Feel free to fix it and make a push, if you find the reason. 
+[Mind you, don't give me "it could be..." issues, test it yourself or be quiet, I've done my debugging too].
 
 ## About credits and License
 
