@@ -2,6 +2,9 @@
 A stacker arcade game made with godot 3.5, so I can play it in my vita.\
 Sounds created with https://boscaceoil.net/
 
+## Browser version (Extra)
+https://bunkai.itch.io/stacker-for-vita-browser
+
 ## Game Controls:
  (There are 2 slightly different versions PS Vita & PC/Mobile)
 
